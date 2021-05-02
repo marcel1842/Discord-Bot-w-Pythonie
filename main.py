@@ -34,4 +34,4 @@ async def ban(ctx, member : discord.Member, *, reason="No Reason"):
 
 
 
-client.run("ODM4MjM5NDY2OTAzOTYxNjQx.YI4NVg.my4hTcUkYiUdY-8I7nCthH8HYmg")
+client.run("token")
