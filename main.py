@@ -10,7 +10,29 @@ client.remove_command("help")
 @client.event
 async def on_ready():
     print("Ready")
+    await client.change_presence(activity=discord.Game(name="The Vidarn"))
 
+@client.command()
+@has_permissions(manage_messages = True)
+async def streamuj(ctx):
+    await client.change_presence(activity=discord.Streaming(name="Stream", url="https://www.twitch.tv/mario1842"))
+
+@client.command()
+@has_permissions(manage_messages = True)
+async def sluchaj(ctx):
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="Właściciela"))
+
+    
+@client.command()
+@has_permissions(manage_messages = True)
+async def ogladaj(ctx):
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="Serial"))
+
+
+@client.command()
+@has_permissions(manage_messages = True)
+async def graj(ctx, wco="gre"):
+    await client.change_presence(activity=discord.Game(name=wco))
 
 @client.command()
 async def help(ctx, value=None):
