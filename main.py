@@ -12,6 +12,20 @@ async def on_ready():
     print("Ready")
     await client.change_presence(activity=discord.Game(name="The Vidarn"))
 
+
+@client.command()
+@has_permissions(manage_messages = True)
+async def mute(ctx, member : discord.Member, czas = 5):
+    rola = discord.utils.get(ctx.guild.roles, name = "mute")
+    await member.add_roles(rola)
+    await ctx.send(f"zmutowano na {member} na {czas}m")
+    time.sleep(czas * 60)
+    await member.remove_roles(rola)
+    await ctx.send(f"odmutowało {member}")
+
+
+
+
 @client.command()
 @has_permissions(manage_messages = True)
 async def streamuj(ctx):
@@ -48,6 +62,7 @@ async def help(ctx, value=None):
         await ctx.send(embed=embed)
 
 
+
 @client.command()
 async def witaj(ctx):
     odp =['czesc', 'witaj','miło cie poznać']
@@ -82,5 +97,3 @@ async def ban(ctx, member : discord.Member, *, reason="No Reason"):
     await member.ban(reason=reason)
 
 
-
-client.run("twój token")
