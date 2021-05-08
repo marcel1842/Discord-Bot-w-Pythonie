@@ -17,6 +17,17 @@ async def on_ready():
 
 
 @client.event
+async def on_message(message):
+    slowa=['test', "test1"]
+    for i in slowa:
+        if i in message.content:
+            await message.channel.send("Nie pisz tak")
+            await mute(ctx=message, member=message.author)
+
+
+
+
+@client.event
 async def on_member_join(member):
     kanal=client.get_channel(838361960994308117)
     rola=discord.utils.get(member.guild.roles, id=840411251447693313)
@@ -36,10 +47,10 @@ async def on_member_remove(member):
 async def mute(ctx, member : discord.Member, czas = 5):
     rola = discord.utils.get(ctx.guild.roles, name = "mute")
     await member.add_roles(rola)
-    await ctx.send(f"zmutowano na {member} na {czas}m")
+    await ctx.channel.send(f"zmutowano na {member} na {czas}m")
     time.sleep(czas * 60)
     await member.remove_roles(rola)
-    await ctx.send(f"odmutowało {member}")
+    await ctx.channel.send(f"odmutowało {member}")
 
 
 
@@ -116,4 +127,4 @@ async def ban(ctx, member : discord.Member, *, reason="No Reason"):
 
 
 
-client.run("twój roken")
+client.run("token")
