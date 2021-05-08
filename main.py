@@ -4,13 +4,31 @@ from discord.ext.commands import has_permissions
 import time
 import random
 
-client = commands.Bot(command_prefix = ".")
+intends = discord.Intents.default()
+intends.members = True
+client = commands.Bot(intents=intends, command_prefix = ".")
 client.remove_command("help")
 
 @client.event
 async def on_ready():
     print("Ready")
     await client.change_presence(activity=discord.Game(name="The Vidarn"))
+
+
+
+@client.event
+async def on_member_join(member):
+    kanal=client.get_channel(838361960994308117)
+    rola=discord.utils.get(member.guild.roles, id=840411251447693313)
+    await kanal.send(f"Witaj <@{member.id}>")
+    await member.add_roles(rola)
+
+@client.event
+async def on_member_remove(member):
+    kanal=client.get_channel(838361960994308117)
+    await kanal.send(f"Żegnaj <@{member.id}>")
+    
+
 
 
 @client.command()
@@ -97,3 +115,5 @@ async def ban(ctx, member : discord.Member, *, reason="No Reason"):
     await member.ban(reason=reason)
 
 
+
+client.run("twój roken")
