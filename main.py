@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from discord.ext.commands import has_permissions
-import time
+import asyncio
 import random
 
 intends = discord.Intents.default()
@@ -48,7 +48,7 @@ async def mute(ctx, member : discord.Member, czas = 5):
     rola = discord.utils.get(ctx.guild.roles, name = "mute")
     await member.add_roles(rola)
     await ctx.channel.send(f"zmutowano na {member} na {czas}m")
-    time.sleep(czas * 60)
+    await asyncio.sleep(czas * 60)
     await member.remove_roles(rola)
     await ctx.channel.send(f"odmutowało {member}")
 
@@ -111,7 +111,7 @@ async def pewny(ctx):
 @has_permissions(manage_messages = True)
 async def clear(ctx, value=5):
     await ctx.channel.purge(limit=value+1)
-    time.sleep(1)
+    await asyncio.sleep(1)
     embed=discord.Embed(title=f"usuniento {value}", color=0x52fa0f)
     message = await ctx.send(embed=embed, delete_after=5)
 
@@ -124,7 +124,5 @@ async def kick(ctx, member : discord.Member, *, reason="No Reason"):
 @has_permissions(ban_members=True)
 async def ban(ctx, member : discord.Member, *, reason="No Reason"):
     await member.ban(reason=reason)
-
-
 
 client.run("token")
