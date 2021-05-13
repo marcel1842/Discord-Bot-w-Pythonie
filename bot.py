@@ -26,13 +26,14 @@ async def help(ctx):
 @has_permissions(ban_members=True)
 async def ban(ctx, member : discord.Member, reason="Bez Powodu"):
     await member.ban(reason=reason)
+    await ctx.channel.send(f"Zbanowano {member.mention} za {reason}", delete_after=10)
 
 
 @client.command()
 @has_permissions(ban_members=True)
 async def kick(ctx, member : discord.Member, reason="Bez Powodu"):
     await member.kick(reason=reason)
-
+    await ctx.channel.send(f"Wyrzucono <@{member.id}> za {reason}", delete_after=10)
 
 
 
