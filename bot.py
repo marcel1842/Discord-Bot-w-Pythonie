@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord.ext.commands import has_permissions
+import random
 
 client = commands.Bot(command_prefix= "?")
 client.remove_command("help")
@@ -9,6 +10,21 @@ client.remove_command("help")
 async def on_ready():
     print("online")
     await client.change_presence(activity=discord.Game(name="?help"))
+
+
+@client.command()
+async def losuj(ctx, min : int, max : int):
+    if(min < max):
+        numer = random.randrange(min, max)
+        await ctx.channel.send(numer)
+    else:
+        await ctx.channel.send("podałeś złe liczby")
+
+@client.command()
+async def witaj(ctx):
+    tablica = ["cześć", "witaj", "siemanko"]
+    await ctx.channel.send(random.choice(tablica))
+
 
 
 
@@ -53,6 +69,5 @@ async def sluchaj(ctx, music):
 @client.command()
 async def ogladaj(ctx, film):
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=film))
-
 
 client.run("token")
