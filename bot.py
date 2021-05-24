@@ -1,10 +1,16 @@
 import discord
+from discord import member
 from discord.ext import commands
 from discord.ext.commands import has_permissions
-import random
 
-client = commands.Bot(command_prefix= "?")
+intents = discord.Intents.default()
+intents.members = True
+intents.messages = True
+
+client = commands.Bot(command_prefix= "?", intents=intents)
 client.remove_command("help")
+
+
 
 @client.event
 async def on_ready():
@@ -12,19 +18,22 @@ async def on_ready():
     await client.change_presence(activity=discord.Game(name="?help"))
 
 
-@client.command()
-async def losuj(ctx, min : int, max : int):
-    if(min < max):
-        numer = random.randrange(min, max)
-        await ctx.channel.send(numer)
-    else:
-        await ctx.channel.send("podałeś złe liczby")
+@client.event
+async def on_member_join(member):
+    kanal = discord.utils.get(member.guild.channels, id=838366698238115890)
+    await kanal.send(f"{member.mention} cześć!!!")
 
-@client.command()
-async def witaj(ctx):
-    tablica = ["cześć", "witaj", "siemanko"]
-    await ctx.channel.send(random.choice(tablica))
+@client.event
+async def on_member_remove(member):
+    kanal = discord.utils.get(member.guild.channels, id=838366698238115890)
+    await kanal.send(f"{member.name} żegnaj!!!")
 
+@client.event
+async def on_message(message):
+    slowa = ['jd', 'jr']
+    for i in slowa:
+        if i == message.content:
+            await message.channel.send("nie pisz tak")
 
 
 
