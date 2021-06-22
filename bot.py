@@ -40,8 +40,8 @@ async def on_message(message):
             await message.author.remove_roles(rola)
             await message.channel.send("nie pisz tak")
 
+    await client.process_commands(message)
 
-    
 
 
 @client.command()
@@ -52,6 +52,29 @@ async def help(ctx):
     embed.add_field(name="test1", value="test1", inline=False)
     await ctx.send(embed=embed, delete_after = 10)
 
+
+@client.command()
+async def weryfikacja(ctx):
+    msg = await ctx.send("Zareaguj na tą wiadomość by dostać role")
+    await msg.add_reaction('✅')
+
+@client.event
+async def on_raw_reaction_add(payload):
+    if payload.message_id == 856553586598215690:
+        if payload.emoji.name == '✅': 
+            guild = client.get_guild(payload.guild_id)
+            member = guild.get_member(payload.user_id)
+            rola = discord.utils.get(guild.roles, id=852898112363429938)
+            await member.add_roles(rola)
+
+@client.event
+async def on_raw_reaction_remove(payload):
+    if payload.message_id == 856553586598215690:
+        if payload.emoji.name == '✅': 
+            guild = client.get_guild(payload.guild_id)
+            member = guild.get_member(payload.user_id)
+            rola = discord.utils.get(guild.roles, id=852898112363429938)
+            await member.remove_roles(rola)
 
 
 @client.command()
