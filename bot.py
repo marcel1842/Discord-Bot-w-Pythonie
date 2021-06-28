@@ -91,11 +91,25 @@ async def kick(ctx, member : discord.Member, reason="Bez Powodu"):
     await ctx.channel.send(f"Wyrzucono <@{member.id}> za {reason}", delete_after=10)
 
 
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+        await ctx.send("nie istnieje tak komenda")
+
 
 @client.command()
 async def graj(ctx, game):
     await client.change_presence(activity=discord.Game(name=game))
 
+@graj.error
+async def graj_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("nie podałeś gry")
+    
+@kick.error
+async def kick_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("nie podałeś osoby")
 
 @client.command()
 async def streamuj(ctx, game):
@@ -109,4 +123,5 @@ async def sluchaj(ctx, music):
 async def ogladaj(ctx, film):
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=film))
 
-client.run("token")
+client.run("TOKEN")
+
